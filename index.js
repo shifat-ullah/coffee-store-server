@@ -50,6 +50,28 @@ async function run() {
       res.send(result)
     })
 
+    app.put('/coffee/:id',async (req,res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updatedcoffe = req.body;
+      const coffe = {
+        $set: {
+          name:updatedcoffe.name,
+          Supplier:updatedcoffe.Supplier,
+           Category:updatedcoffe.Category,
+           Chef:updatedcoffe.Chef,
+           Taste:updatedcoffe.Taste,
+           Details:updatedcoffe.Details,
+           photo:updatedcoffe.photo
+        },
+
+      };
+      const result = await coffecollection.updateOne(filter, coffe, options);
+      res.send(result)
+      console.log(result)
+    })
+
     app.get('/coffee/:id', async(req,res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
